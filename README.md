@@ -24,11 +24,11 @@ from WillMindS import config, logger
 from WillMindS.utils import backup_files
 
 def main():
-		# get config
+    # get config
     exp_name = config.experiment
     # logging
     logger.info("test the log")
-		pass
+    pass
 
 if __name__ == "__main__":
 		import os
