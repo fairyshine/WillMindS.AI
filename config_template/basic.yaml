@@ -1,0 +1,5 @@
+experiment: main
+model_name: LLaMA3_1-8B-Instruct
+checkpoint: /PTM/Meta-Llama-3_1-8B-Instruct
+seed: 42
+output_total_dir: output/

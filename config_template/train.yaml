@@ -1,0 +1,14 @@
+experiment: main
+model_name: LLaMA3_1-8B-Instruct
+checkpoint: /PTM/Meta-Llama-3_1-8B-Instruct
+seed: 42
+output_total_dir: output/
+
+train_epoch: 10
+train_batch: 16 # 12 # 8
+lr: 1e-4
+lr_w_tensor: 0.001
+gradient_accumulation_steps: 12 # 16 # 6
+max_grad_norm: 1.0
+
+corpus_dir: /mnt/PTM
