@@ -7,7 +7,7 @@ WillMindS is portable and designed primarily for personal use, serving as a help
 
 Follow these steps to integrate WillMindS into your project:
 
-1. **Copy the `WillMindS` directory:** Move the WillMindS directory into your src/ path.
+1. **Copy the `WillMindS` directory:** Move the WillMindS directory into your `src/` path.
 
 2. **Install dependencies:** Run the following command to install the required packages:
 
@@ -31,10 +31,11 @@ def main():
 		pass
 
 if __name__ == "__main__":
-    backup_files("src/",  # backup your code
+		import os
+		backup_files("src/",  # backup your code
                ["src/WillMindS"], # exclude this dir
                  os.path.join(config.output_dir,"source_code_backup")) # backup path
-    main()
+		main()
 ```
 
 ```shell
