@@ -14,10 +14,10 @@ class Logger:
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
         # 实例化写入日志文件的Handler
-        if not os.path.exists("WillMindS_log/"):
+        if not os.path.exists("log_WillMindS/"):
             # 如果文件夹不存在，则创建文件夹
-            os.makedirs("WillMindS_log/")
-        file_handler = logging.FileHandler('WillMindS_log/{} | {} | {}.log'.format(config.experiment, config.model_name, config.start_time))
+            os.makedirs("log_WillMindS/")
+        file_handler = logging.FileHandler('log_WillMindS/{} | {} | {}.log'.format(config.experiment, config.model_name, config.start_time))
         file_handler.setFormatter(formatter) 
 
         # 实例化实时输出的Handler
