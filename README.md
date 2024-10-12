@@ -1,4 +1,9 @@
+<p align="center">
+  <a href="https://fairyshine.github.io/WillMindS.AI/"><img src="https://github.com/fairyshine/WillMindS.AI/blob/master/icon.png?raw=true" alt="WillMindS"></a>
+</p>
+
 # WillMindS
+
 Efficiently set up your experimental environment with features such as logging, parameter management, code backup, and algorithms.
 
 WillMindS is portable and designed primarily for personal use, serving as a helpful reference.
