@@ -1,6 +1,7 @@
 <p align="center">
-  <a href="https://fairyshine.github.io/WillMindS.AI/"><img src="https://github.com/fairyshine/WillMindS.AI/blob/master/icon.png?raw=true" alt="WillMindS"></a>
+  <a href="https://fairyshine.github.io/WillMindS.AI/"><img src="https://github.com/fairyshine/WillMindS.AI/blob/master/icon.png?raw=true" alt="WillMindS" style="width: 30%;"></a>
 </p>
+
 # WillMindS
 
 Efficiently set up your experimental environment with features such as logging, parameter management, code backup, and algorithms.
