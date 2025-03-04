@@ -1,0 +1,11 @@
+include *.md
+include asset/*
+recursive-include *.cpp *.c *.hpp *.h
+recursive-include *.py *.csv *.json *.txt *.cpp *.hpp *.h
+
+exclude data/*
+exclude tests/*
+
+global-exclude .DS_Store
+global-exclude *.pyc
+global-exclude *.log

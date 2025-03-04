@@ -1,0 +1,64 @@
+# Project information
+site_name: WillMindS
+
+# Repository
+repo_name: fairyshine/WillMindS.AI
+repo_url: https://github.com/fairyshine/WillMindS.AI
+
+# Configuration
+theme:
+  name: "material"
+  features:
+    - navigation.tabs # 页面上方的导航栏
+    - navigation.instant # 现在页面不会跳转,而是类似单页应用,搜索和各种跳转都是在当前页面完成,对美观有很大帮助
+    - navigation.tracking # 页面滚动时，导航栏高亮当前页面
+    - navigation.sections # 使导航栏分块
+    - navigation.expand # 默认展开导航
+    - navigation.prune # 只渲染当前页面的导航
+    - toc.follow # 滚动的时候侧边栏自动跟随
+    - navigation.top # 返回顶部按钮
+    - search.suggest # 补全建议
+    - search.highlight # 搜索结果高亮
+    - search.share # 搜索结果分享
+    - navigation.footer # 页脚提示下一章
+    - content.code.copy # 代码段上的赋值按钮
+  icon:
+    logo: material/tools
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+  - search # built-in 搜索插件
+
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Quick Start:
+    - Installation: Quick_Start/installation.md
+    - User Guide: Quick_Start/user_guide.md
+  - Tutorial: Tutorial/tutorial.md
+  - Documentation: Documentation/API.md
+  - ABOUT: about.md

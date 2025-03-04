@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "willminds"
+description = "Explore to building the intelligence easily! It's based on Torch, Transformers, etc."
+dynamic = ["version", "dependencies"]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Mengsong Wu", email = "radi.cat@qq.com" },
+]
+maintainers = [
+    { name = "Mengsong Wu", email = "radi.cat@qq.com" },
+]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["willminds"]
+
+[tool.setuptools_scm]
+
+[project.urls]
+"Homepage" = "https://github.com/fairyshine/WillMindS.AI/"
+"Bug Tracker" = "https://github.com/fairyshine/WillMindS.AI/issues"
+"Source" = "https://github.com/fairyshine/WillMindS.AI"
+
+[project.scripts]

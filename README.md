@@ -4,29 +4,25 @@
 
 # WillMindS
 
-Efficiently set up your experimental environment with features such as logging, parameter management, code backup, and algorithms.
-
-WillMindS is portable and designed primarily for personal use, serving as a helpful reference.
+Explore to building the intelligence easily! It's based on Torch, Transformers, etc.
 
 ## How to use
 
 Follow these steps to integrate WillMindS into your project:
 
-1. **Copy the `WillMindS` directory:** Move the WillMindS directory into your `src/` path.
-
-2. **Install dependencies:** Run the following command to install the required packages:
+1. **Install:** Run the following command to install the package:
 
 ```shell
-pip install -r src/WillMindS/requirements.txt
+pip install willminds
 ```
 
-3. **Create configuration directory:** Make a new directory named `config/`, and create a file `basic.yaml` based on the provided template(in config_template).
+2. **Create configuration directory:** Make a new directory named `config/`, and create a file `basic.yaml` based on the provided template(in config_template).
 
-4. **Update your `src/main.py`**: Add the following code to your main Python file:
+3. **Update your `src/main.py`**: Add the following code to your main Python file:
 
 ```Python
-from WillMindS import config, logger
-from WillMindS.utils import backup_files
+from willminds import config, logger
+from willminds.utils import backup_files
 
 def main():
     # get config
@@ -38,7 +34,7 @@ def main():
 if __name__ == "__main__":
 		import os
 		backup_files("src/",  # backup your code
-               ["src/WillMindS"], # exclude this dir
+               ["src/test"], # exclude this dir
                  os.path.join(config.output_dir,"source_code_backup")) # backup path
 		main()
 ```

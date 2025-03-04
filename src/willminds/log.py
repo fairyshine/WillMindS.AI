@@ -40,7 +40,7 @@ class Logger:
         # logger.critical('this is a critical message')
 
         # 日志的存储模块
-        self.kv_inventory = dict()
+        self.inventory = dict()
 
         self.info('------------------------------------')
         self.info('------------日志初始化完成------------')

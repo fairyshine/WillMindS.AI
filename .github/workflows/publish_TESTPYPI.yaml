@@ -1,0 +1,49 @@
+name: publish python package to TESTPyPI
+
+on:
+  push:
+    # Alternative: only build for tags.
+    tags:
+      - 'v*'
+jobs:
+  build_wheels:
+    name: Build wheels
+    runs-on: ubuntu-latest
+    environment: pypi
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+
+      - name: Clean build directories
+        run: |
+          rm -rf dist/
+          rm -rf build/
+          rm -rf *.egg-info
+
+      - name: Install pypa/build
+        run: >-
+          python -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+          .
+
+      - name: Test connectivity to TESTPyPI
+        run: |
+          curl -I https://test.pypi.org/legacy/
+
+      - name: publish to Test PYPI
+        uses: pypa/gh-action-pypi-publish@v1.8.12
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          user: __token__
+          password: ${{ secrets.TESTPYPI_API_TOKEN }}
