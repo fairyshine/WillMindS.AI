@@ -1,25 +1,23 @@
-from .config import Config
-from .log import Logger
+"""Python Package named WillMindS"""
 
-config = Config()
-logger = Logger(config)
-config.log_print_config(logger)
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version
 
-'''Use Example - main.py
-import sys
-sys.dont_write_bytecode = True
-import os
+from .monitor import Monitor
 
-from WillMindS import config, logger
-from WillMindS.utils import backup_files
+__all__ = [
+    "__version__",
+    "config",
+    "logger"
+]
 
-def main():
-    pass
+# Official PEP 396
+try:
+    __version__ = version("willminds")
+except PackageNotFoundError:
+    __version__ = "unknown version"
 
-if __name__ == "__main__":
-    # backup_files("src/",["src/WillMindS"],os.path.join(config.output_dir,"source_code_backup"))
-    backup_files("src/",[],os.path.join(config.output_dir,"source_code_backup"))
-    main()
+monitor = Monitor()
+config = monitor.config
+logger = monitor.logger
 
-python src/main.py --config_file config/basic.yaml
-'''

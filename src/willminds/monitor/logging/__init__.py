@@ -3,7 +3,7 @@ import logging
 
 class Logger:
     def __init__(self, config):
-        print('--------------初始化日志--------------')
+        print('-------------初始化日志-------------')
         # 实例化一个 Logger 
         self.logger = logging.getLogger("WillMindS") #logger = logging.getLogger() 
 
@@ -17,7 +17,7 @@ class Logger:
         if not os.path.exists("log_WillMindS/"):
             # 如果文件夹不存在，则创建文件夹
             os.makedirs("log_WillMindS/")
-        file_handler = logging.FileHandler('log_WillMindS/{} | {} | {}.log'.format(config.experiment, config.model_name, config.start_time))
+        file_handler = logging.FileHandler('log_WillMindS/{} | {} | {}.log'.format(config.experiment, config.model_name, config.time))
         file_handler.setFormatter(formatter) 
 
         # 实例化实时输出的Handler
@@ -39,11 +39,8 @@ class Logger:
         # logger.error('this is an error message') 
         # logger.critical('this is a critical message')
 
-        # 日志的存储模块
-        self.inventory = dict()
-
         self.info('------------------------------------')
-        self.info('------------日志初始化完成------------')
+        self.info('-----------日志初始化完成-----------')
 
     def debug(self, message):
         self.logger.debug(message)
@@ -60,6 +57,3 @@ class Logger:
     def critical(self, message):
         self.logger.critical(message)
 
-    def save_kv(self, key, value):
-        self.kv_inventory[key] == value
-        return value
