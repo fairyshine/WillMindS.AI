@@ -27,8 +27,8 @@ theme:
   palette:
     # Palette toggle for light mode
     - scheme: default
-      primary: deep purple
-      accent: purple
+      primary: pink
+      accent: cyan
       toggle:
         icon: material/weather-night
         name: Switch to dark mode

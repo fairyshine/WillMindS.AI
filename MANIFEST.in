@@ -5,6 +5,8 @@ recursive-include *.py *.csv *.json *.txt *.cpp *.hpp *.h
 
 exclude data/*
 exclude tests/*
+exclude log_WillMindS/*
+exclude output/*
 
 global-exclude .DS_Store
 global-exclude *.pyc
