@@ -11,6 +11,8 @@ class pretrain_trainer:
     def __init__(self, model, train_loader):
 
         self.model = model
+
+        self.config = config
         self.train_args = config.train
 
         self.train_loader = train_loader
@@ -22,7 +24,7 @@ class pretrain_trainer:
         for epoch in range(self.train_args.epochs):
             self.train_epoch(epoch)
 
-
+    @staticmethod
     def get_lr(current_step, total_steps, lr):
         return lr / 10 + 0.5 * lr * (1 + math.cos(math.pi * current_step / total_steps))
 
@@ -82,8 +84,8 @@ class pretrain_trainer:
 
             if (step + 1) % self.train_args.save_interval == 0:
                 self.model.eval()
-                moe_path = '_moe' if self.train_args.use_moe else ''
-                ckp = f'{config.output_dir}/pretrain_{self.train_args.dim}{moe_path}.pth'
+                moe_path = '_moe' if self.model.config.use_moe else ''
+                ckp = f'{config.output_dir}/pretrain_{self.model.config.dim}{moe_path}.pth'
 
                 state_dict = self.model.state_dict()
 
