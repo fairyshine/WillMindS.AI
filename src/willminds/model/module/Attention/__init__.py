@@ -1,1 +1,1 @@
-from .attention import Attention
+from .vanilla_attention import Attention
