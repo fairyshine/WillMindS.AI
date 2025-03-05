@@ -5,7 +5,7 @@ from contextlib import nullcontext
 import torch
 from torch import optim, nn
 
-from .. import logger, config
+from .. import monitor, logger, config
 
 class pretrain_trainer:
     def __init__(self, model, train_loader):
@@ -77,10 +77,10 @@ class pretrain_trainer:
                         self.optimizer.param_groups[-1]['lr'],
                         spend_time / (step + 1) * iter_per_epoch // 60 - spend_time // 60))
 
-
-                # tracking.log({"loss": loss.item() * self.train_args.accumulation_steps,
-                #         "lr": self.optimizer.param_groups[-1]['lr'],
-                #         "epoch_Time": spend_time / (step + 1) * iter_per_epoch // 60 - spend_time // 60})
+                if monitor.tracking:
+                    monitor.tracking.log({"loss": loss.item() * self.train_args.accumulation_steps,
+                        "lr": self.optimizer.param_groups[-1]['lr'],
+                        "epoch_Time": spend_time / (step + 1) * iter_per_epoch // 60 - spend_time // 60})
 
             if (step + 1) % self.train_args.save_interval == 0:
                 self.model.eval()

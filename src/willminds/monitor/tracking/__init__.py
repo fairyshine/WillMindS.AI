@@ -3,4 +3,6 @@
 def get_tracking(config):
     match config.tracking.type:
         case "swanlab":
-            return ...
+            import swanlab
+            swanlab.init(**config.tracking)
+            return swanlab

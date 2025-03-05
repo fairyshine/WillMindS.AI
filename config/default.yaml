@@ -6,6 +6,10 @@ seed: 42
 
 tracking:
   type: swanlab
+  project: WillMindS.AI
+  workspace: null
+  experiment_name: pretrain
+  description: null
 
 train:
   lr: 5e-4
