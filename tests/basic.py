@@ -9,6 +9,8 @@ def main():
     logger.info(config.train.lr)
     config.seed = 5e-6
     logger.info(config.train.lr)
+    train_args = config.train
+    logger.info(config.model.hidden_dim)
 
 if __name__ == "__main__":
 		import os
