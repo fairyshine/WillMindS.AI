@@ -23,6 +23,8 @@ class Monitor:
 
         init_output_dir(self.config)
         set_seed(self.config.seed)
+
+        log_print_config(self.config, self.logger)
     
 
 
