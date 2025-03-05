@@ -8,7 +8,7 @@ from willminds.data.corpus.MiniMind_dataset import PretrainDataset
 from willminds.model.framework.MiniMind import MiniMindLM
 from willminds.pipeline.MiniMind_trainer import pretrain_trainer
 
-tokenizer = AutoTokenizer.from_pretrained('./model/minimind_tokenizer')
+tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
 model = MiniMindLM(config.model).to(config.train.device)
 
 logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6:.3f} 百万')
@@ -23,6 +23,6 @@ train_loader = DataLoader(
             num_workers=config.train.num_workers,
             sampler=None
         )
-trainer = pretrain_trainer(model, train_loader)
 
+trainer = pretrain_trainer(model, train_loader)
 trainer.train()
