@@ -7,7 +7,7 @@ from torch import optim, nn
 
 from .. import monitor, logger, config
 
-class pretrain_trainer:
+class Trainer:
     def __init__(self, model, train_loader):
 
         self.model = model
@@ -91,3 +91,5 @@ class pretrain_trainer:
 
                 torch.save(state_dict, ckp)
                 self.model.train()
+
+
