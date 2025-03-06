@@ -16,5 +16,5 @@ if __name__ == "__main__":
 		import os
 		backup_files("src/",  # backup your code
                ["src/test"], # exclude this dir
-                 os.path.join(config.output_dir,"source_code_backup")) # backup path
+                 os.path.join(config.output_dir,"src_backup")) # backup path
 		main()

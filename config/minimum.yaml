@@ -1,0 +1,10 @@
+output_total_dir: output/
+experiment: main
+model_name: model
+checkpoint: null
+
+tracking:
+  type: null
+
+train:
+  seed: 42

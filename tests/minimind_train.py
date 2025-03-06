@@ -18,7 +18,7 @@ logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.
 train_dataset = PretrainDataset(config.train.data_path, tokenizer, max_length=config.train.max_seq_len)
 train_loader = DataLoader(
             train_dataset,
-            batch_size=config.train.batch_size,
+            batch_size=config.train.per_device_train_batch_size,
             pin_memory=True,
             drop_last=False,
             shuffle=False,
@@ -42,7 +42,7 @@ logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.
 train_dataset = SFTDataset(config.train.data_path, tokenizer, max_length=config.train.max_seq_len)
 train_loader = DataLoader(
             train_dataset,
-            batch_size=config.train.batch_size,
+            batch_size=config.train.per_device_train_batch_size,
             pin_memory=True,
             drop_last=False,
             shuffle=False,

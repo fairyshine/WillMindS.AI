@@ -22,7 +22,7 @@ class Monitor:
         self.tracking = get_tracking(self.config)
 
         init_output_dir(self.config)
-        set_seed(self.config.seed)
+        set_seed(self.config.train.seed)
 
         log_print_config(self.config, self.logger)
     
