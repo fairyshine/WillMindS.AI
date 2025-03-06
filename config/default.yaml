@@ -6,10 +6,13 @@ seed: 42
 
 tracking:
   type: swanlab
-  project: WillMindS.AI
   workspace: null
+  project: WillMindS.AI
   experiment_name: pretrain
   description: null
+  config: null
+  logdir: null
+  mode: cloud
 
 train:
   lr: 5e-4

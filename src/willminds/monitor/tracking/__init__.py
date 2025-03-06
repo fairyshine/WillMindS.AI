@@ -6,3 +6,17 @@ def get_tracking(config):
             import swanlab
             swanlab.init(**config.tracking)
             return swanlab
+        case "wandb":
+            import wandb
+            wandb.init(
+                entity=config.tracking.get("workspace", None),
+                project=config.tracking.get("project", None),
+                name=config.tracking.get("experiment_name", None),
+                notes=config.tracking.get("description", None),
+                config=config.tracking.get("config", None),
+                dir=config.tracking.get("logdir", None),
+                mode=config.trakcing.get("mode", "online")
+            )
+            return wandb
+        case None:
+            return None
