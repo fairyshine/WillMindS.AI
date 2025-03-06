@@ -85,11 +85,9 @@ class Trainer:
             if (step + 1) % self.train_args.save_interval == 0:
                 self.model.eval()
                 moe_path = '_moe' if self.model.config.use_moe else ''
-                ckp = f'{config.output_dir}/pretrain_{self.model.config.dim}{moe_path}.pth'
+                ckp = f'{config.output_dir}/pretrain_{self.model.config.dim}{moe_path}/'
+                self.model.save_pretrained(ckp, safe_serialization=False)
 
-                state_dict = self.model.state_dict()
-
-                torch.save(state_dict, ckp)
                 self.model.train()
 
 
