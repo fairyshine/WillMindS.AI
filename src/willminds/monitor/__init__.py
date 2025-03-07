@@ -29,7 +29,7 @@ class Monitor:
 
         log_print_config(self.config, self.logger)
 
-        self.trainer_args = TrainingArguments(TrainingArguments(**{k: v for k, v in self.config.train.items() if k in {f.name for f in fields(TrainingArguments)}}))
+        self.trainer_args = TrainingArguments(**{k: v for k, v in self.config.train.items() if k in {f.name for f in fields(TrainingArguments)}})
     
 
 
