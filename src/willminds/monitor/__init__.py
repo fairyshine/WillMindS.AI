@@ -5,6 +5,7 @@ from transformers import TrainingArguments
 
 from .config import (
     get_config, 
+    load_arguments,
     set_seed, 
     init_output_dir,
     backup_config, 

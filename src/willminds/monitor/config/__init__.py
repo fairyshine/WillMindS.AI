@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-import argparse
 import os
 import random
-import datetime
+from dataclasses import fields
 
-from omegaconf import OmegaConf, DictConfig
+from omegaconf import OmegaConf
 import numpy as np
 import torch
 
@@ -29,6 +28,9 @@ def get_config():
     config = OmegaConf.merge(file_args, cli_args)
     # config = OmegaConf.to_object(config)
     return config
+
+def load_arguments(data_class, config_dict):
+    return data_class(**{k: v for k, v in config_dict.items() if k in {f.name for f in fields(data_class)}})
 
 def set_seed(seed=1116):
     os.environ['PYTHONHASHSEED'] = '{}'.format(seed)
