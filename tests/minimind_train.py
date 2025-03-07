@@ -18,7 +18,7 @@ from willminds.pipeline.MiniMind_trainer import Trainer as MiniMind_Trainer
 # -- pretrain --
 
 tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
-model = MiniMindLM(LMConfig(**config.model))
+model = MiniMindLM(LMConfig(**config.model)).to(config.train.device)
 train_dataset = PretrainDataset(config.train.train_data_path, tokenizer, max_length=config.train.max_seq_len)
 logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6:.3f} 百万')
 
@@ -32,13 +32,13 @@ logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.
 #             sampler=None
 #         )
 
-# trainer = MiniMind_Trainer(model.to(config.train.device), train_loader)
+# trainer = MiniMind_Trainer(model, train_loader)
 # trainer.train()
 
 optimizer = optim.AdamW(model.parameters(), lr=config.train.learning_rate)
 scheduler = optim.lr_scheduler.LambdaLR(
     optimizer=optimizer, 
-    lr_lambda=lambda epoch : 0.1 + 0.5 * (1 + math.cos(math.pi * epoch / (config.train.num_train_epochs*len(train_dataset)/config.train.per_device_train_batch_size))))
+    lr_lambda=lambda epoch : 0.1 + 0.5 * (1 + math.cos(math.pi * epoch / config.train.num_train_epochs)))
 
 trainer = Trainer(model=model, 
                   args=monitor.trainer_args,

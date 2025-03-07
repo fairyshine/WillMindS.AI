@@ -19,6 +19,7 @@ def compute_loss_func(outputs, labels, num_items_in_batch):
     ).view(labels.size())
     loss = (loss * outputs.loss_mask).sum() / outputs.loss_mask.sum()
     loss += outputs.aux_loss
+    loss /= config.train.gradient_accumulation_steps
     return loss
 
 class Trainer:
