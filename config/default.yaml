@@ -29,6 +29,7 @@ train:
   warmup_steps: 0
   max_grad_norm: 1.0
   local_rank: -1
+  dataloader_num_workers: 0
   device: cuda:0
   dtype: bfloat16
 

@@ -19,7 +19,7 @@ from willminds.pipeline.MiniMind_trainer import Trainer as MiniMind_Trainer
 
 tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
 model = MiniMindLM(LMConfig(**config.model))
-train_dataset = PretrainDataset(config.train.data_path, tokenizer, max_length=config.train.max_seq_len)
+train_dataset = PretrainDataset(config.train.train_data_path, tokenizer, max_length=config.train.max_seq_len)
 logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6:.3f} 百万')
 
 train_loader = DataLoader(
@@ -28,7 +28,7 @@ train_loader = DataLoader(
             pin_memory=True,
             drop_last=False,
             shuffle=False,
-            num_workers=config.train.num_workers,
+            num_workers=config.train.dataloader_num_workers,
             sampler=None
         )
 
