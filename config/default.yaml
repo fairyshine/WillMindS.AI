@@ -25,6 +25,7 @@ train:
   per_device_train_batch_size: 32
   gradient_accumulation_steps: 8
   logging_steps: 100
+  save_strategy: epoch  # no / epoch / steps / best
   save_steps: 100
   save_safetensors: False
   warmup_steps: 0

@@ -38,7 +38,8 @@ logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.
 optimizer = optim.AdamW(model.parameters(), lr=config.train.learning_rate)
 scheduler = optim.lr_scheduler.LambdaLR(
     optimizer=optimizer, 
-    lr_lambda=lambda epoch : 0.1 + 0.5 * (1 + math.cos(math.pi * epoch / config.train.num_train_epochs)))
+    lr_lambda=lambda step : 0.1 + 0.5 * (1 + math.cos(math.pi*step/(config.train.num_train_epochs*len(train_dataset)/config.train.per_device_train_batch_size)))
+)
 
 trainer = Trainer(model=model, 
                   args=monitor.trainer_args,

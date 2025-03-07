@@ -112,7 +112,9 @@ class SFTDataset(Dataset):
         Y = torch.tensor(input_ids[1:], dtype=torch.long)
         loss_mask = torch.tensor(loss_mask[1:], dtype=torch.long)  # 对齐预测位置
 
-        return X, Y, loss_mask
+        return {"input_ids": X,
+                "label_ids": Y,
+                "loss_mask": loss_mask}
 
 
 class DPODataset(Dataset):
