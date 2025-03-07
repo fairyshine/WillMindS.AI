@@ -14,31 +14,20 @@ from willminds.pipeline.MiniMind_trainer import compute_loss_func
 from willminds.pipeline.MiniMind_trainer import Trainer as MiniMind_Trainer
 
 
-
-# -- pretrain --
-
 tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
-model = MiniMindLM(LMConfig(**config.model)).to(config.train.device)
-train_dataset = PretrainDataset(config.train.train_data_path, tokenizer, max_length=config.train.max_seq_len)
+# * Pretrain
+# model = MiniMindLM(LMConfig(**config.model)).to(config.train.device)
+# train_dataset = PretrainDataset(config.train.train_data_path, tokenizer, max_length=config.train.max_seq_len)
+# * SFT
+model = MiniMindLM.from_pretrained(config.checkpoint)
+train_dataset = SFTDataset(config.train.train_data_path, tokenizer, max_length=config.train.max_seq_len)
+
 logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6:.3f} 百万')
-
-# train_loader = DataLoader(
-#             train_dataset,
-#             batch_size=config.train.per_device_train_batch_size,
-#             pin_memory=True,
-#             drop_last=False,
-#             shuffle=False,
-#             num_workers=config.train.dataloader_num_workers,
-#             sampler=None
-#         )
-
-# trainer = MiniMind_Trainer(model, train_loader)
-# trainer.train()
 
 optimizer = optim.AdamW(model.parameters(), lr=config.train.learning_rate)
 scheduler = optim.lr_scheduler.LambdaLR(
     optimizer=optimizer, 
-    lr_lambda=lambda step : 0.1 + 0.5 * (1 + math.cos(math.pi*step/(config.train.num_train_epochs*len(train_dataset)/config.train.per_device_train_batch_size)))
+    lr_lambda=lambda step : 0.1 + 0.5 * (1 + math.cos(math.pi*step/(config.train.num_train_epochs*len(train_dataset)/config.train.per_device_train_batch_size/config.train.gradient_accumulation_steps)))
 )
 
 trainer = Trainer(model=model, 
@@ -49,24 +38,20 @@ trainer = Trainer(model=model,
                   optimizers=(optimizer,scheduler))
 trainer.train()
 
-# -- SFT --
+# # -- pretrain (RAW) --
 
 # tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
-
-# model = MiniMindLM(LMConfig(**config.model))
-# model.load_state_dict(torch.load(config.checkpoint, map_location=config.train.device), strict=False)
-# model = model.to(config.train.device)
-
+# model = MiniMindLM(LMConfig(**config.model)).to(config.train.device)
+# train_dataset = PretrainDataset(config.train.train_data_path, tokenizer, max_length=config.train.max_seq_len)
 # logger.info(f'LLM总参数量：{sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6:.3f} 百万')
 
-# train_dataset = SFTDataset(config.train.data_path, tokenizer, max_length=config.train.max_seq_len)
 # train_loader = DataLoader(
 #             train_dataset,
 #             batch_size=config.train.per_device_train_batch_size,
 #             pin_memory=True,
 #             drop_last=False,
 #             shuffle=False,
-#             num_workers=config.train.num_workers,
+#             num_workers=config.train.dataloader_num_workers,
 #             sampler=None
 #         )
 

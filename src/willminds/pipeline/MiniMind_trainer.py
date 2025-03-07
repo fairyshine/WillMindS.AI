@@ -103,5 +103,3 @@ class Trainer:
                 self.model.save_pretrained(ckp, safe_serialization=False)
 
                 self.model.train()
-
-
