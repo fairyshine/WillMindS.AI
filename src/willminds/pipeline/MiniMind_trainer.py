@@ -50,7 +50,7 @@ class Trainer:
         start_time = time.time()
         for step, data_batch in enumerate(self.train_loader):
             data_batch["input_ids"] = data_batch["input_ids"].to(self.train_args.device)
-            data_batch["labels"] = data_batch["labels"].to(self.train_args.device)
+            data_batch["label_ids"] = data_batch["label_ids"].to(self.train_args.device)
             data_batch["loss_mask"] = data_batch["loss_mask"].to(self.train_args.device)
 
             lr = self.get_lr(epoch * iter_per_epoch + step, self.train_args.num_train_epochs * iter_per_epoch, self.train_args.learning_rate)
@@ -61,8 +61,8 @@ class Trainer:
                 res = self.model(**data_batch)
                 loss = loss_fct(
                     res.logits.view(-1, res.logits.size(-1)),
-                    data_batch["labels"].view(-1)
-                ).view(data_batch["labels"].size())
+                    data_batch["label_ids"].view(-1)
+                ).view(data_batch["label_ids"].size())
                 loss = (loss * res.loss_mask).sum() / res.loss_mask.sum()
                 loss += res.aux_loss
                 loss = loss / self.train_args.gradient_accumulation_steps
