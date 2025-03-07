@@ -49,7 +49,7 @@ def init_output_dir(config):
 
     config.train.output_dir = os.path.join(config.output_dir, "train")
     if not os.path.exists(config.train.output_dir):
-        os.makedirs(config.output_dir)
+        os.makedirs(config.train.output_dir)
 
 def backup_config(config):
     config_backup_path = os.path.join(config.output_dir, 'config.yaml')
