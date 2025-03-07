@@ -9,14 +9,14 @@ from transformers import Trainer
 
 from willminds import monitor, config, logger
 from willminds.data.corpus.MiniMind_dataset import PretrainDataset, SFTDataset
-from willminds.model.framework.MiniMind import MiniMindLM, LMConfig
+from willminds.model.framework.MiniMind import MiniMindLM, MiniMindConfig
 from willminds.pipeline.MiniMind_trainer import compute_loss_func
 from willminds.pipeline.MiniMind_trainer import Trainer as MiniMind_Trainer
 
 
 tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
 # * Pretrain
-# model = MiniMindLM(LMConfig(**config.model)).to(config.train.device)
+# model = MiniMindLM(MiniMindConfig(**config.model)).to(config.train.device)
 # train_dataset = PretrainDataset(config.train.train_data_path, tokenizer, max_length=config.train.max_seq_len)
 # * SFT
 model = MiniMindLM.from_pretrained(config.checkpoint)
