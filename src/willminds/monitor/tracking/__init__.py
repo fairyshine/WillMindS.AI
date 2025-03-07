@@ -4,8 +4,9 @@ def get_tracking(config):
     match config.tracking.type:
         case "swanlab":
             import swanlab
+            from swanlab.integration.transformers import SwanLabCallback
             swanlab.init(**config.tracking)
-            return swanlab
+            return swanlab, SwanLabCallback()
         case "wandb":
             import wandb
             wandb.init(
@@ -17,6 +18,6 @@ def get_tracking(config):
                 dir=config.tracking.get("logdir", None),
                 mode=config.trakcing.get("mode", "online")
             )
-            return wandb
+            return wandb, None
         case None:
             return None

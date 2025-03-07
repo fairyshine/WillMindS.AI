@@ -365,6 +365,7 @@ class MiniMindLM(PreTrainedModel):
 
     def forward(self,
                 input_ids: Optional[torch.Tensor] = None,
+                loss_mask: Optional[torch.Tensor] = None,
                 past_key_values: Optional[List[Tuple[torch.Tensor, torch.Tensor]]] = None,
                 use_cache: bool = False,
                 **args):
@@ -385,6 +386,8 @@ class MiniMindLM(PreTrainedModel):
         self.OUT.__setitem__('logits', logits)
         self.OUT.__setitem__('aux_loss', aux_loss)
         self.OUT.__setitem__('past_key_values', past_kvs)
+
+        self.OUT.__setitem__('loss_mask', loss_mask)
         return self.OUT
 
     @torch.inference_mode()
@@ -437,6 +440,7 @@ class MiniMindLM(PreTrainedModel):
             yield input_ids[:, start:]
             if input_ids_next.item() == eos_token_id:
                 break
+
 
 def apply_lora(model, rank=16):
     for name, module in model.named_modules():

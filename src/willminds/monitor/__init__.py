@@ -19,7 +19,7 @@ class Monitor:
         self.config.time = self.time
         
         self.logger = Logger(self.config)
-        self.tracking = get_tracking(self.config)
+        self.tracking, self.tracking_callback = get_tracking(self.config)
 
         init_output_dir(self.config)
         set_seed(self.config.train.seed)
