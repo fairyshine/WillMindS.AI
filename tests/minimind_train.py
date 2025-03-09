@@ -42,19 +42,23 @@ from willminds.pipeline.MiniMind_trainer import Trainer as MiniMind_Trainer
 from datasets import load_dataset
 from trl import GRPOConfig, GRPOTrainer
 
+tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
+model = MiniMindLM.from_pretrained(config.checkpoint)
 dataset = load_dataset("trl-lib/tldr", split="train")
 
 # Define the reward function, which rewards completions that are close to 20 characters
 def reward_len(completions, **kwargs):
     return [-abs(20 - len(completion)) for completion in completions]
 
-training_args = GRPOConfig(output_dir="Qwen2-0.5B-GRPO", logging_steps=10)
+training_args = GRPOConfig(output_dir=config.train.output_dir, logging_steps=10)
 trainer = GRPOTrainer(
     # model="Qwen/Qwen2-0.5B-Instruct",
-    model = MiniMindLM.from_pretrained(config.checkpoint),
+    model = model,
     reward_funcs=reward_len,
     args=training_args,
     train_dataset=dataset,
+    processing_class=tokenizer,
+    callbacks=[monitor.tracking_callback]
 )
 trainer.train()
 
