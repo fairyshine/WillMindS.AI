@@ -1,8 +1,8 @@
-from ..MiniMind import LMConfig
+from ..MiniMind import MiniMindConfig
 from typing import List
 
 
-class MiniMindVLConfig(LMConfig):
+class MiniMindVLConfig(MiniMindConfig):
     model_type = "minimind-v"
 
     def __init__(

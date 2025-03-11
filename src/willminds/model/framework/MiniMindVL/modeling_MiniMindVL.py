@@ -4,7 +4,7 @@ import warnings
 from transformers import CLIPProcessor, CLIPModel
 import torch
 
-from .configuration_MiniMindVL import VLMConfig
+from .configuration_MiniMindVL import MiniMindVLConfig
 from ..MiniMind import MiniMindLM
 
 warnings.filterwarnings('ignore')
@@ -26,12 +26,12 @@ class VisionProj(nn.Module):
 
 # 继承自语言模型
 class MiniMindVLM(MiniMindLM):
-    config_class = VLMConfig
+    config_class = MiniMindVLConfig
 
-    def __init__(self, params: VLMConfig = None):
+    def __init__(self, params = None):
         super().__init__(params)
         if not params: 
-            params = VLMConfig()
+            params = MiniMindVLConfig()
         self.params = params
         self.vision_encoder, self.processor = self.__class__.get_vision_model()
         self.vision_proj = VisionProj(lm_dim=params.dim)
