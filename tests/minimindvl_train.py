@@ -15,7 +15,7 @@ from willminds.pipeline.MiniMind_trainer import VL_Trainer as MiniMind_Trainer
 
 tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
 model_config = MiniMindVLConfig(**config.model)
-model = MiniMindVLM(model_config).to(config.train.device)
+model = MiniMindVLM(model_config, clip_model_path=config.clip_model_path).to(config.train.device)
 _, preprocess = MiniMindVLM.get_vision_model(model_path=config.clip_model_path)
 
 train_dataset = VLMDataset(config.train.train_data_path, config.train.train_image_path, tokenizer, preprocess=preprocess,

@@ -28,12 +28,12 @@ class VisionProj(nn.Module):
 class MiniMindVLM(MiniMindLM):
     config_class = MiniMindVLConfig
 
-    def __init__(self, params = None):
+    def __init__(self, params = None, clip_model_path = None):
         super().__init__(params)
         if not params: 
             params = MiniMindVLConfig()
         self.params = params
-        self.vision_encoder, self.processor = self.__class__.get_vision_model()
+        self.vision_encoder, self.processor = self.__class__.get_vision_model(clip_model_path)
         self.vision_proj = VisionProj(lm_dim=params.dim)
 
     @staticmethod
