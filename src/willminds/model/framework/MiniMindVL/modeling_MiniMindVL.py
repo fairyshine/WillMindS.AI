@@ -33,7 +33,7 @@ class MiniMindVLM(MiniMindLM):
         if not params: 
             params = MiniMindVLConfig()
         self.params = params
-        self.vision_encoder, self.processor = self.__class__.get_vision_model(clip_model_path)
+        self.vision_encoder, self.processor = self.__class__.get_vision_model(model_path=clip_model_path)
         self.vision_proj = VisionProj(lm_dim=params.dim)
 
     @staticmethod
