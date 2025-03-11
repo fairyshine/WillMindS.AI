@@ -14,7 +14,6 @@ from willminds.pipeline.MiniMind_trainer import compute_loss_func
 from willminds.pipeline.MiniMind_trainer import VL_Trainer as MiniMind_Trainer
 
 tokenizer = AutoTokenizer.from_pretrained(config.tokenizer_path)
-# model_config = MiniMindVLConfig(dim=args.dim, n_layers=args.n_layers, max_seq_len=args.max_seq_len)
 model_config = MiniMindVLConfig(**config.model)
 model = MiniMindVLM(model_config).to(config.train.device)
 _, preprocess = MiniMindVLM.get_vision_model(model_path=config.clip_model_path)
