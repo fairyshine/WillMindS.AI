@@ -114,7 +114,7 @@ class VL_Trainer:
 
         self.train_loader = train_loader
 
-        self.scaler = torch.cuda.amp.GradScaler(enabled=(args.dtype in ['float16', 'bfloat16']))
+        self.scaler = torch.cuda.amp.GradScaler(enabled=(self.train_args.dtype in ['float16', 'bfloat16']))
         self.optimizer = optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=self.train_args.learning_rate)
 
     @staticmethod
