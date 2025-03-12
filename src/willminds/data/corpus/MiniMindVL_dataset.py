@@ -86,4 +86,4 @@ class VLMDataset(Dataset):
         return {"input_ids": X,
                 "label_ids": Y,
                 "loss_mask": loss_mask,
-                "image_tensors": image_tensors}
+                "pixel_tensors": image_tensors}
