@@ -83,4 +83,7 @@ class VLMDataset(Dataset):
             image_tensors.append(image_tensor)
         image_tensors = torch.stack(image_tensors, dim=0)
 
-        return X, Y, loss_mask, image_tensors
+        return {"input_ids": X,
+                "label_ids": Y,
+                "loss_mask": loss_mask,
+                "image_tensors": image_tensors}
