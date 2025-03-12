@@ -187,7 +187,7 @@ class VL_Trainer:
             if (step + 1) % self.train_args.save_steps == 0:
                 self.model.eval()
                 moe_path = '_moe' if self.model.config.use_moe else ''
-                ckp = f'{self.train_args.save_dir}/pretrain_vlm_{self.model.config.dim}{moe_path}/'
+                ckp = f'{self.train_args.output_dir}/pretrain_vlm_{self.model.config.dim}{moe_path}/'
                 self.model.save_pretrained(ckp, safe_serialization=False)
                 
                 self.model.train()
