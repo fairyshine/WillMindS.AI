@@ -5,7 +5,7 @@ from transformers import CLIPProcessor, CLIPModel
 import torch
 
 from .configuration_MiniMindVL import MiniMindVLConfig
-from ..MiniMind import MiniMindLM
+from ..MiniMind import *
 
 warnings.filterwarnings('ignore')
 
