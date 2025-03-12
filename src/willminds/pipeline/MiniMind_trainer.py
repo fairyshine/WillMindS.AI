@@ -184,7 +184,7 @@ class VL_Trainer:
                             "lr": self.optimizer.param_groups[-1]['lr'],
                             "epoch_Time": spend_time / (step + 1) * iter_per_epoch // 60 - spend_time // 60})
 
-            if (step + 1) % self.train_args.save_interval == 0:
+            if (step + 1) % self.train_args.save_steps == 0:
                 self.model.eval()
                 moe_path = '_moe' if self.model.config.use_moe else ''
                 ckp = f'{self.train_args.save_dir}/pretrain_vlm_{self.model.config.dim}{moe_path}/'
