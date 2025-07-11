@@ -1,7 +1,6 @@
 import datetime
-
+import importlib
 from dataclasses import fields
-from transformers import TrainingArguments
 
 from .config import (
     get_config, 
@@ -29,8 +28,12 @@ class Monitor:
         set_seed(self.config.train.seed)
 
         log_print_config(self.config, self.logger)
-
-        self.trainer_args = TrainingArguments(**{k: v for k, v in self.config.train.items() if k in {f.name for f in fields(TrainingArguments)}})
+        if importlib.util.find_spec("transformers") and importlib.util.find_spec("accelerate"):
+            from transformers import TrainingArguments
+            self.logger.info("-"*36)
+            self.logger.info("加载 config.train 中的 Huggingface Trainer 设置~")
+            self.logger.info("-"*36)
+            self.trainer_args = TrainingArguments(**{k: v for k, v in self.config.train.items() if k in {f.name for f in fields(TrainingArguments)}})
     
 
 

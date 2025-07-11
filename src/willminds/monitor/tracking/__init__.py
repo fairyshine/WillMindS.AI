@@ -20,4 +20,4 @@ def get_tracking(config):
             )
             return wandb, None
         case None:
-            return None
+            return None, None
