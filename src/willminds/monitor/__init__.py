@@ -20,20 +20,20 @@ class Monitor:
         
         self.config = get_config()
         self.config.time = self.time
-        
+        set_seed(self.config.train.seed)
+        if self.config.save_log:
+            init_output_dir(self.config)
+
+
         self.logger = Logger(self.config)
         self.tracking, self.tracking_callback = get_tracking(self.config)
 
-        init_output_dir(self.config)
-        set_seed(self.config.train.seed)
 
         log_print_config(self.config, self.logger)
-        if importlib.util.find_spec("transformers") and importlib.util.find_spec("accelerate"):
-            from transformers import TrainingArguments
-            self.logger.info("-"*36)
-            self.logger.info("加载 config.train 中的 Huggingface Trainer 设置~")
-            self.logger.info("-"*36)
-            self.trainer_args = TrainingArguments(**{k: v for k, v in self.config.train.items() if k in {f.name for f in fields(TrainingArguments)}})
-    
-
-
+        if self.config.train.load_training_arguments:
+            if importlib.util.find_spec("transformers") and importlib.util.find_spec("accelerate"):
+                from transformers import TrainingArguments
+                self.logger.info("-"*36)
+                self.logger.info("加载 config.train 中的 Huggingface Trainer 设置~")
+                self.logger.info("-"*36)
+                self.trainer_args = TrainingArguments(**{k: v for k, v in self.config.train.items() if k in {f.name for f in fields(TrainingArguments)}})

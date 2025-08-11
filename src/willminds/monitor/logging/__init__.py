@@ -14,11 +14,13 @@ class Logger:
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
         # 实例化写入日志文件的Handler
-        if not os.path.exists("log_WillMindS/"):
-            # 如果文件夹不存在，则创建文件夹
-            os.makedirs("log_WillMindS/")
-        file_handler = logging.FileHandler('log_WillMindS/{} | {} | {}.log'.format(config.experiment, config.model_name, config.time))
-        file_handler.setFormatter(formatter) 
+        if config.save_log:
+            if not os.path.exists("log_WillMindS/"):
+                # 如果文件夹不存在，则创建文件夹
+                os.makedirs("log_WillMindS/")
+            file_handler = logging.FileHandler('log_WillMindS/{} | {} | {}.log'.format(config.experiment, config.model_name, config.time))
+            file_handler.setFormatter(formatter) 
+            self.logger.addHandler(file_handler) 
 
         # 实例化实时输出的Handler
         try:
@@ -27,9 +29,6 @@ class Logger:
         except ImportError:
             shell_handler = logging.StreamHandler(stream=None)
             shell_handler.setFormatter(formatter) 
-
-        # 添加到 logger 
-        self.logger.addHandler(file_handler) 
         self.logger.addHandler(shell_handler)
 
         # 输出日志 

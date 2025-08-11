@@ -2,6 +2,7 @@ output_total_dir: output/
 experiment: main
 model_name: model
 checkpoint: null
+save_log: True
 
 tracking:
   type: swanlab
@@ -19,6 +20,7 @@ tracking:
   mode: cloud  
 
 train:
+  load_training_arguments: True
   learning_rate: 5e-4
   num_train_epochs: 1
   seed: 42

@@ -2,9 +2,11 @@ output_total_dir: output/
 experiment: main
 model_name: model
 checkpoint: null
+save_log: False
 
 tracking:
   type: null
 
 train:
+  load_training_arguments: False
   seed: 42

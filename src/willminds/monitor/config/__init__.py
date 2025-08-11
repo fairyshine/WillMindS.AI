@@ -27,6 +27,9 @@ def get_config():
 
     config = OmegaConf.merge(file_args, cli_args)
     # config = OmegaConf.to_object(config)
+
+    if config.model_name is None:
+        config.model_name = 'model'
     return config
 
 def load_arguments(data_class, config_dict):
@@ -42,9 +45,6 @@ def set_seed(seed=1116):
     torch.backends.cudnn.deterministic = True
 
 def init_output_dir(config):
-    import os
-    if config.model_name is None:
-        config.model_name = 'model'
     config.output_dir = os.path.join(config.output_total_dir, config.experiment+" | "+config.model_name+" | "+config.time+'/')
     if not os.path.exists(config.output_dir):
         os.makedirs(config.output_dir)
