@@ -18,18 +18,18 @@ class Logger:
             if not os.path.exists("log_WillMindS/"):
                 # 如果文件夹不存在，则创建文件夹
                 os.makedirs("log_WillMindS/")
-            file_handler = logging.FileHandler('log_WillMindS/{} | {} | {}.log'.format(config.experiment, config.model_name, config.time))
-            file_handler.setFormatter(formatter) 
-            self.logger.addHandler(file_handler) 
+            self.file_handler = logging.FileHandler('log_WillMindS/{} | {} | {}.log'.format(config.experiment, config.model_name, config.time))
+            self.file_handler.setFormatter(formatter) 
+            self.logger.addHandler(self.file_handler) 
 
         # 实例化实时输出的Handler
         try:
             from rich.logging import RichHandler
-            shell_handler = RichHandler(rich_tracebacks=True)
+            self.shell_handler = RichHandler(rich_tracebacks=True)
         except ImportError:
-            shell_handler = logging.StreamHandler(stream=None)
-            shell_handler.setFormatter(formatter) 
-        self.logger.addHandler(shell_handler)
+            self.shell_handler = logging.StreamHandler(stream=None)
+            self.shell_handler.setFormatter(formatter) 
+        self.logger.addHandler(self.shell_handler)
 
         # 输出日志 
         # logger.debug('this is a debug message') 
@@ -40,6 +40,10 @@ class Logger:
 
         self.info('------------------------------------')
         self.info('-----------日志初始化完成-----------')
+
+    def connect_logger(self, logger_name: str):
+        custom_logger = logging.getLogger(logger_name)
+        custom_logger.addHandler(self.file_handler)
 
     def debug(self, message):
         self.logger.debug(message)
