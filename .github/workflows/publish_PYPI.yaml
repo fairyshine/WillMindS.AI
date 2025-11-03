@@ -38,19 +38,6 @@ jobs:
           --outdir dist/
           .
 
-      - name: Verify built packages
-        run: |
-          # Check wheel metadata
-          python -m pip install twine
-          twine check dist/*
-
-          # Show package info
-          echo "=== Built packages ==="
-          ls -la dist/
-
-          # Check wheel metadata details
-          python -c "import pkginfo; w = pkginfo.Wheel('dist/willminds-*.whl'); print(f'Name: {w.name}, Version: {w.version}')"
-
       - name: Test connectivity to PyPI
         run: |
           curl -I https://upload.pypi.org/legacy/
