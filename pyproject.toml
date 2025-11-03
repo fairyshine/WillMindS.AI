@@ -24,11 +24,6 @@ where = ["src"]
 include = ["willminds"]
 
 [tool.setuptools_scm]
-# Ensure version is generated from git tags
-local_scheme = "node-and-date"
-git_describe_command = "git describe --dirty --tags --long --match 'v*'"
-# Fallback version if no git tags found
-fallback_version = "0.0.0.dev0"
 
 [project.urls]
 "Homepage" = "https://github.com/fairyshine/WillMindS.AI/"

@@ -44,7 +44,7 @@ jobs:
           curl -I https://test.pypi.org/legacy/
 
       - name: publish to Test PYPI
-        uses: pypa/gh-action-pypi-publish@v1.8.12
+        uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
           repository-url: https://test.pypi.org/legacy/
           user: __token__

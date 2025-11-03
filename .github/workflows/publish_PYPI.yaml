@@ -43,7 +43,7 @@ jobs:
           curl -I https://upload.pypi.org/legacy/
 
       - name: publish to PYPI
-        uses: pypa/gh-action-pypi-publish@v1.8.12
+        uses: pypa/gh-action-pypi-publish@v1.13.0
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
