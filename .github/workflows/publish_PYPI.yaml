@@ -15,7 +15,9 @@ jobs:
           fetch-depth: 0  # Fetch all history for setuptools-scm
 
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
       - name: Clean build directories
         run: |
@@ -24,12 +26,9 @@ jobs:
           rm -rf *.egg-info
 
       - name: Install build dependencies
-        run: >-
-          python -m
-          pip install
-          build
-          setuptools-scm
-          --user
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build setuptools setuptools-scm wheel
       - name: Build a binary wheel and a source tarball
         run: >-
           python -m
@@ -38,6 +37,19 @@ jobs:
           --wheel
           --outdir dist/
           .
+
+      - name: Verify built packages
+        run: |
+          # Check wheel metadata
+          python -m pip install twine
+          twine check dist/*
+
+          # Show package info
+          echo "=== Built packages ==="
+          ls -la dist/
+
+          # Check wheel metadata details
+          python -c "import pkginfo; w = pkginfo.Wheel('dist/willminds-*.whl'); print(f'Name: {w.name}, Version: {w.version}')"
 
       - name: Test connectivity to PyPI
         run: |
