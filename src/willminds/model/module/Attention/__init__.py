@@ -1,2 +1,2 @@
 # from .vanilla_attention import Attention
-from .MQA import MultiQueryAttention
+from .multi_query_attention import MultiQueryAttention
