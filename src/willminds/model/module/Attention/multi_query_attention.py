@@ -111,3 +111,5 @@ class MultiQueryAttention(nn.Module):
         output = output.transpose(1, 2).reshape(bsz, seq_len, -1)
         output = self.resid_dropout(self.o_proj(output))
         return output, past_kv
+
+from transformers import PreTrainedModel, GenerationMixin

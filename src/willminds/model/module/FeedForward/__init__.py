@@ -1,2 +1,2 @@
 # from .vanilla_feedforward import FeedForward, MOEFeedForward
-from .gate_feedforward import GatedFeedForward
+from .gated_feedforward import GatedFeedForward
