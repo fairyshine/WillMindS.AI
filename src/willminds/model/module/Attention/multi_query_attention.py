@@ -39,7 +39,7 @@ class MultiQueryAttention(nn.Module):
         dropout
         flash_attn
     '''
-    def __init__(self, args):
+    def __init__(self, args, pos_emb = None):
         super().__init__()
         self.num_key_value_heads = args.num_attention_heads if args.num_key_value_heads is None else args.num_key_value_heads
         assert args.num_attention_heads % self.num_key_value_heads == 0
@@ -57,6 +57,8 @@ class MultiQueryAttention(nn.Module):
         self.flash = hasattr(torch.nn.functional, 'scaled_dot_product_attention') and args.flash_attn
         # print("WARNING: using slow attention. Flash Attention requires PyTorch >= 2.0")
 
+        self.pos_emb = pos_emb
+
     def forward(self,
                 x: torch.Tensor,
                 position_embeddings: Tuple[torch.Tensor, torch.Tensor],  # 修改为接收cos和sin
@@ -69,8 +71,8 @@ class MultiQueryAttention(nn.Module):
         xk = xk.view(bsz, seq_len, self.n_local_kv_heads, self.head_dim)
         xv = xv.view(bsz, seq_len, self.n_local_kv_heads, self.head_dim)
 
-        cos, sin = position_embeddings
-        xq, xk = apply_rotary_pos_emb(xq, xk, cos[:seq_len], sin[:seq_len])
+        if self.pos_emb:
+            xq, xk = self.pos_emb(xq, xk, *position_embeddings)
 
         # kv_cache实现
         if past_key_value is not None:
@@ -111,5 +113,3 @@ class MultiQueryAttention(nn.Module):
         output = output.transpose(1, 2).reshape(bsz, seq_len, -1)
         output = self.resid_dropout(self.o_proj(output))
         return output, past_kv
-
-from transformers import PreTrainedModel, GenerationMixin
