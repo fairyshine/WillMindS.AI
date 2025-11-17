@@ -21,8 +21,9 @@ class Monitor:
         self.config = get_config()
         self.config.time = self.time
         set_seed(self.config.train.seed)
-        if self.config.save_log:
-            init_output_dir(self.config)
+
+        init_output_dir(self.config)
+        backup_config(self.config)
 
 
         self.logger = Logger(self.config)

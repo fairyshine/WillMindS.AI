@@ -21,43 +21,116 @@ English | [中文](./README_CN.md)
 
 </div>
 
-
-
-
 ## How to use
 
-Follow these steps to integrate WillMindS into your project:
+WillMindS provides a comprehensive framework for building and training AI models with built-in monitoring, configuration management, and various neural network components.
 
-1. **Install:** Run the following command to install the package:
+### Installation
+
+Install the package using pip:
 
 ```shell
 pip install willminds
 ```
 
-2. **Create configuration directory:** Make a new directory named `config/`, and create a file `basic.yaml` based on the provided template(in config_template).
+### Basic Usage
 
-3. **Update your `src/main.py`**: Add the following code to your main Python file:
+1. **Import and Initialize**
 
-```Python
+```python
+import willminds
+
+# Access configuration and logger
+config = willminds.config
+logger = willminds.logger
+
+# On first run, config will be automatically generated in "config/default.yaml"
+```
+
+2. **Configuration Management**
+
+WillMindS automatically handles configuration with YAML files. You can:
+
+- Use the default configuration: `config/default.yaml`
+- Create custom configurations: `config/custom.yaml`
+- Override specific settings at runtime
+
+Example configuration structure:
+```yaml
+output_total_dir: output/
+experiment: main
+model_name: model
+
+tracking:
+  type: swanlab
+  project: WillMindS.AI
+  mode: cloud
+
+train:
+  learning_rate: 5e-4
+  num_train_epochs: 1
+  per_device_train_batch_size: 32
+
+model:
+  dim: 512
+  n_layers: 8
+  n_heads: 8
+  vocab_size: 6400
+```
+
+3. **Basic Example**
+
+```python
 from willminds import config, logger
 from willminds.utils import backup_files
+import os
 
 def main():
-    # get config
+    # Access configuration
     exp_name = config.experiment
-    # logging
-    logger.info("test the log")
-    pass
+
+    # Logging
+    logger.info(f"Starting experiment: {exp_name}")
+    logger.info(f"Learning rate: {config.train.learning_rate}")
+
+    # Backup code
+    backup_files("src/",
+                ["src/test"],
+                os.path.join(config.output_total_dir, "src_backup"))
+
+    # Your training logic here
+    logger.info("Training completed successfully")
 
 if __name__ == "__main__":
-		import os
-		backup_files("src/",  # backup your code
-               ["src/test"], # exclude this dir
-                 os.path.join(config.output_dir,"source_code_backup")) # backup path
-		main()
+    main()
 ```
 
+4. **Running with Custom Configuration**
+
 ```shell
-python src/main.py --config_file config/basic.yaml
+python your_script.py config=config/custom.yaml
 ```
+
+### Advanced Features
+
+- **Built-in Monitoring**: Integration with SwanLab and WandB for experiment tracking
+- **Model Components**: Various attention mechanisms, feed-forward networks, normalization layers
+- **Training Pipelines**: Pre-built trainers for different datasets
+- **Utilities**: File backup, parsing, and threading utilities
+
+### Configuration Files
+
+WillMindS supports multiple configuration files:
+
+- `config/default.yaml`: Default configuration
+- `config/minimum.yaml`: Minimal configuration for basic usage
+- Custom YAML files for specific experiments
+
+### Key Components
+
+- **Monitor**: Central monitoring and logging system
+- **Model Modules**: Attention, FeedForward, Normalization layers
+- **Data Loaders**: Corpus and dataset management
+- **Optimizers**: Loss functions and optimization strategies
+- **Pipelines**: Training and evaluation workflows
 
