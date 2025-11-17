@@ -39,7 +39,7 @@ class MultiQueryAttention(nn.Module):
         dropout
         flash_attn
     '''
-    def __init__(self, args, pos_emb = None):
+    def __init__(self, args, embed_pos = None):
         super().__init__()
         self.num_key_value_heads = args.num_attention_heads if args.num_key_value_heads is None else args.num_key_value_heads
         assert args.num_attention_heads % self.num_key_value_heads == 0
@@ -57,7 +57,7 @@ class MultiQueryAttention(nn.Module):
         self.flash = hasattr(torch.nn.functional, 'scaled_dot_product_attention') and args.flash_attn
         # print("WARNING: using slow attention. Flash Attention requires PyTorch >= 2.0")
 
-        self.pos_emb = pos_emb
+        self.embed_pos = embed_pos
 
     def forward(self,
                 x: torch.Tensor,
@@ -71,8 +71,8 @@ class MultiQueryAttention(nn.Module):
         xk = xk.view(bsz, seq_len, self.n_local_kv_heads, self.head_dim)
         xv = xv.view(bsz, seq_len, self.n_local_kv_heads, self.head_dim)
 
-        if self.pos_emb:
-            xq, xk = self.pos_emb(xq, xk, *position_embeddings)
+        if self.embed_pos:
+            xq, xk = self.embed_pos(xq, xk, *position_embeddings)
 
         # kv_cache实现
         if past_key_value is not None:
