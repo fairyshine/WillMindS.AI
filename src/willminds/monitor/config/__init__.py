@@ -22,6 +22,9 @@ def get_config():
     print('------------读取Config中------------')
     cli_args = OmegaConf.from_cli()
     cli_args.config = cli_args.get("config","config/default.yaml")
+    if not os.path.exists(cli_args.config):
+        create_minimum_config(cli_args.config)
+
     file_args = OmegaConf.load(cli_args.config)
     del cli_args.config
 
@@ -31,6 +34,24 @@ def get_config():
     if config.model_name is None:
         config.model_name = 'model'
     return config
+
+def create_minimum_config(file_path):
+    mini_config = """output_total_dir: output/
+experiment: main
+model_name: model
+checkpoint: null
+save_log: False
+
+tracking:
+  type: null
+
+train:
+  load_training_arguments: False
+  seed: 42
+"""
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(mini_config)
 
 def load_arguments(data_class, config_dict):
     return data_class(**{k: v for k, v in config_dict.items() if k in {f.name for f in fields(data_class)}})

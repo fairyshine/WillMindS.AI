@@ -5,16 +5,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
-def apply_rotary_pos_emb(q, k, cos, sin, position_ids=None, unsqueeze_dim=1):
-    def rotate_half(x):
-        return torch.cat((-x[..., x.shape[-1] // 2:], x[..., : x.shape[-1] // 2]), dim=-1)
-
-    q_embed = (q * cos.unsqueeze(unsqueeze_dim)) + (rotate_half(q) * sin.unsqueeze(unsqueeze_dim))
-    k_embed = (k * cos.unsqueeze(unsqueeze_dim)) + (rotate_half(k) * sin.unsqueeze(unsqueeze_dim))
-    return q_embed, k_embed
-
-
 def repeat_kv(x: torch.Tensor, n_rep: int) -> torch.Tensor:
     """
     MQA
@@ -28,7 +18,6 @@ def repeat_kv(x: torch.Tensor, n_rep: int) -> torch.Tensor:
         .expand(bs, slen, num_key_value_heads, n_rep, head_dim)
         .reshape(bs, slen, num_key_value_heads * n_rep, head_dim)
     )
-
 
 class MultiQueryAttention(nn.Module):
     '''
