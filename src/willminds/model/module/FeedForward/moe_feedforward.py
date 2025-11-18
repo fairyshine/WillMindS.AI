@@ -84,7 +84,7 @@ class MOEFeedForward(nn.Module):
         norm_topk_prob,
         **kwargs):
         super().__init__()
-        params = {k:v for k,v in locals().items() if k!='kwargs'}
+        params = {k:v for k,v in locals().items() if k not in ['self', 'kwargs']}
         for k in locals()['kwargs']:
             params[k] = locals()['kwargs'][k]
         self.experts = nn.ModuleList([
