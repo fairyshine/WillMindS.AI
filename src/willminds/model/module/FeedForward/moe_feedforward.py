@@ -84,11 +84,11 @@ class MOEFeedForward(nn.Module):
         norm_topk_prob,
         **kwargs):
         super().__init__()
-        params = {k:v for k,v in locals().items() if k not in ['self', 'kwargs']}
+        self.params = {k:v for k,v in locals().items() if k not in ['self', 'kwargs']}
         for k in locals()['kwargs']:
-            params[k] = locals()['kwargs'][k]
+            self.params[k] = locals()['kwargs'][k]
         self.experts = nn.ModuleList([
-            FeedForward(**params)
+            FeedForward(**self.params)
             for _ in range(n_routed_experts)
         ])
         self.gate = MoEGate(num_experts_per_tok,
@@ -101,7 +101,7 @@ class MOEFeedForward(nn.Module):
         )
         if n_shared_experts > 0:
             self.shared_experts = nn.ModuleList([
-                FeedForward(**params)
+                FeedForward(**self.params)
                 for _ in range(n_shared_experts)
             ])
 
@@ -114,7 +114,7 @@ class MOEFeedForward(nn.Module):
         x = x.view(-1, x.shape[-1])
         flat_topk_idx = topk_idx.view(-1)
         if self.training:
-            x = x.repeat_interleave(self.config.num_experts_per_tok, dim=0)
+            x = x.repeat_interleave(self.params['num_experts_per_tok'], dim=0)
             y = torch.empty_like(x, dtype=torch.float16)
             for i, expert in enumerate(self.experts):
                 y[flat_topk_idx == i] = expert(x[flat_topk_idx == i]).to(y.dtype)  # 确保类型一致
@@ -122,7 +122,7 @@ class MOEFeedForward(nn.Module):
             y = y.view(*orig_shape)
         else:
             y = self.moe_infer(x, flat_topk_idx, topk_weight.view(-1, 1)).view(*orig_shape)
-        if self.config.n_shared_experts > 0:
+        if self.params['n_shared_experts'] > 0:
             for expert in self.shared_experts:
                 y = y + expert(identity)
         self.aux_loss = aux_loss
@@ -133,7 +133,7 @@ class MOEFeedForward(nn.Module):
         expert_cache = torch.zeros_like(x)
         idxs = flat_expert_indices.argsort()
         tokens_per_expert = flat_expert_indices.bincount().cpu().numpy().cumsum(0)
-        token_idxs = idxs // self.config.num_experts_per_tok
+        token_idxs = idxs // self.params['num_experts_per_tok']
         # 当tokens_per_expert = [6, 15, 20, 26]，tokens_per_expert.shape[0]即为专家数量（此时为4）
         # 且token_idxs = [3, 7, 19, 21, 24, 25,  4,  5,  6, 10, 11, 12...] 时
         # 意味token_idxs[:6] -> [3, 7, 19, 21, 24, 25]这6个位置属于专家0处理的token（每个token有可能被多个专家处理，这取决于num_experts_per_tok）
