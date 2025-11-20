@@ -75,6 +75,10 @@ class MultiQueryAttention(nn.Module):
             repeat_kv(xv, self.n_rep).transpose(1, 2)
         )
 
+        # Ensure all tensors have the same dtype for flash attention
+        xq = xq.to(xv.dtype)
+        xk = xk.to(xv.dtype)
+
         if self.flash and seq_len != 1:
             dropout_p = self.dropout if self.training else 0.0
             attn_mask = None

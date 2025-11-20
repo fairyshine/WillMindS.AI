@@ -71,6 +71,10 @@ class Attention(nn.Module):
         queries = queries.view(batch_size, seq_length, -1, self.head_dim).transpose(1, 2)
         keys = keys.view(batch_size, seq_length, -1, self.head_dim).transpose(1, 2)
         values = values.view(batch_size, seq_length, -1, self.head_dim).transpose(1, 2)
+
+        # Ensure all tensors have the same dtype
+        queries = queries.to(values.dtype)
+        keys = keys.to(values.dtype)
         # CLIP text model uses both `causal_attention_mask` and `attention_mask`
         # in case FA2 kernel is called, `is_causal` should be inferred from `causal_attention_mask`
         if self.config._attn_implementation == "flash_attention_2":
